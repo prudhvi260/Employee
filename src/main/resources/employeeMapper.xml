@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="package com.example.employee.employee.Mapper.EmployeeMapper" >
+    <!--<cache />-->
+    <resultMap id="baseResultMap" type="package com.example.employee.employee.Model.Employee" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="Name" property="Name" jdbcType="VARCHAR" />
+        <result column="Address" property="Address" jdbcType="VARCHAR" />
+        <result column="Designation" property="Designation" jdbcType="VARCHAR" />
+        <result column="DateOfBirth" property="DateOfBirth" jdbcType="VARCHAR" />
+        
+    </resultMap>
+
+    <select id="findAll" resultMap="baseResultMap">
+        select * from employee;
+    </select>
+   <insert id = "insert" parameterType = "Employee">
+      INSERT INTO employee (Name,Address,Designation,DateOfBirth) VALUES (#{Name}, #{Address}, #{Designation}, #{DateOfBirth});
+			
+      <selectKey keyProperty = "id" resultType = "int" order = "AFTER">
+         select last_insert_id() as id
+      </selectKey>   	
+   </insert>
+   
+    <update id = "update" parameterType = "Student">
+      UPDATE employee SET Name = #{Name}, 
+         Address = #{Address}, 
+         Designation = #{Designation}, 
+         DateOfBirth = #{DateOfBirth} 
+      WHERE id = #{id};
+   </update>
+   
+   <delete id = "delete" parameterType = "int">
+   DELETE from employee WHERE id = #{id};
+   </delete>
+   
+  <select id = "getById" parameterType = "int" resultMap = "baseResultMap">
+   SELECT * FROM employee WHERE id = #{id};
+   </select>
+</mapper>
